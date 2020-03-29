@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid-19</title>
+</head>
+<body>
+    <canvas id="chart" width="800" height="400"></canvas> <!--El tamaño de el grafico al parecer-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> <!--Se importa el api de ChartsJS-->
+    <script type="module">
+        import data from './data.js'  //Se importa una data quemada para trabajar como example
+        debugger
+        function totalCasesChart(ctx) {   // Esta funcion es quien pinta el grafico 
+            const chart =  new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [1, 20, 30, 50, 70],
+                    datasets: [
+                        {
+                            label: 'Muertes',
+                            data: [1, 20, 30, 40],
+                        },
+                        {
+                            label: 'Contagiados',
+                            data: [5, 26, 33, 41],
+                        },
+                        {
+                            label: 'Recuperados',
+                            data: [3, 31, 56, 58],
+                        }
+                    ]
+                }
+            }) 
+        }
+
+        function renderCharts() {  // Esta aplicacion renderizara el grafico en el canva declarado arriba
+            const ctx = document.querySelector('#chart').getContext('2d')
+            totalCasesChart(ctx)  // Se inicia la funcion de arriba, se otorga como parametro el canvas
+        }
+
+        renderCharts()  // Se ejecuta la funcion que inicia a la otra de más arriba
+    </script>
+</body>
+</html>
