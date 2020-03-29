@@ -26,18 +26,76 @@
                     labels: confirmed.map(item => item.date), // al array de data, confirmed se mapea y se devuelve el date
                     datasets: [
                         {
-                            label: 'Muertes',
-                            data: deaths.map(item => item.cases),
+                            label: 'Muertes', // Nombre de la linea 
+                            data: deaths.map(item => item.cases),  // Data de los muertes
+                            borderColor: 'red'  // color de la linea
                         },
                         {
                             label: 'Contagiados',
                             data: confirmed.map(item => item.cases),
+                            borderColor: 'orange' 
                         },
                         {
                             label: 'Recuperados',
                             data: recovered.map(item => item.cases),
+                            borderColor: 'green' 
                         }
                     ]
+                },
+                options: {
+                    title: { // Esto es el apartado del titulo
+                        display: true,  // Esto hace que sea visible el titulo
+                        text: 'Todos los Casos en Chile de Covid-19', // Este es el titulo
+                        fontSize: 30, // El tamaño de la fuente del titulo
+                        padding: 30, // El padding que tendra alrededor
+                        fontColor: '#12619c', // EL color de la fuente
+                    },
+                    layout: {       // Esto adminsitra el layout total del grafico
+                        padding: {      // Esto es la propiedad de padding normal
+                            right: 50,      // Aca selecciono padding right de 50 px
+                        }
+                    },
+                    scales: {
+                        xAxes: [{   // El eje X de scales 
+                            gridLines: {    // Estos son las lineas del grid 
+                                display: false  // Aca selecciono que las lienas de fondo no se vean
+                            }
+                        }]
+                    },
+                    legend: { // Esto es el cosito de colores que indica que color es cada linea
+
+                        position: 'bottom',  // Aca selecciono donde tiene que ir 
+                        labels: {
+                            padding: 20,    // Estos son las apariencias del label de abajo
+                            boxWidth: 15,   // El tamaño de la cajita
+                            fontFamily: 'system-ui',
+                            fontColor: 'black'
+                        }
+                    },
+                    tooltips: {
+                        backgroundColor: '#0584f6', // La barra que te dice los detalles del punto
+                        titleFontSize: 20, // El tamaño del titulo
+                        xPadding: 20,
+                        yPadding: 20,
+                        bodyFontSize: 15,
+                        bodySpacing: 10,
+                        mode: 'x', // Esto me dira toda la informacion del eje x, no solo del puntito que estas
+
+
+                    },
+                    elements: { 
+                        line: {    // Estos son los elementos de las lineas
+                            borderWidth: 8,     // EL ancho del border
+                            fill: false,
+                        },
+                        point: {    // Este es el punto de la linea
+                            radius: 6,  // el radio del punto
+                            borderWidth: 4,     // el borde del radius
+                            backgroundColor: 'white',   // el color del punto
+                            hoverRadius: 8,
+                            hoverBoderWidth: 4
+                        }
+                    }
                 }
             }) 
         }
