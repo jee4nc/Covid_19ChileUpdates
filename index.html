@@ -9,9 +9,10 @@
     <canvas id="chart" width="800" height="400"></canvas> <!--El tamaño de el grafico al parecer-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> <!--Se importa el api de ChartsJS-->
     <script type="module">
-        import data from './data.js'  //Se importa una data quemada para trabajar como example
-        //  debugger  Se ocupa, para opcion para depurar
-        function totalCasesChart(ctx) {   // Esta funcion es quien pinta el grafico 
+        // import data from './data.js'  //Se importa una data quemada para trabajar como example
+        import  { getTotalCasesByDate } from './utils.js'
+          //Se ocupa, para opcion para depurar
+        function totalCasesChart(data, ctx) {   // Esta funcion es quien pinta el grafico 
 
             const {
                 confirmed,
@@ -22,24 +23,24 @@
 
             const chart =  new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: confirmed.map(item => item.date), // al array de data, confirmed se mapea y se devuelve el date
-                    datasets: [
-                        {
-                            label: 'Muertes', // Nombre de la linea 
-                            data: deaths.map(item => item.cases),  // Data de los muertes
-                            borderColor: 'red'  // color de la linea
-                        },
+                data: {         // Se le da el formato, se pone CL chile o MX mexico etx, y el formato mes long es en texto y day en numero
+                    labels: confirmed.map(item => new Intl.DateTimeFormat('es-CL', {month: 'long', day: 'numeric'}).format(new Date(item.date))), // al array de data, confirmed se mapea y se devuelve el date
+                    datasets: [                 // Aca arriba estoy parseando el formato de fechas para que solo diga fecha y mes
+                        // {
+                        //     label: 'Muertes', // Nombre de la linea 
+                        //     data: deaths.map(item => item.cases),  // Data de los muertes
+                        //     borderColor: 'red'  // color de la linea
+                        // },
                         {
                             label: 'Contagiados',
                             data: confirmed.map(item => item.cases),
                             borderColor: 'orange' 
-                        },
-                        {
-                            label: 'Recuperados',
-                            data: recovered.map(item => item.cases),
-                            borderColor: 'green' 
-                        }
+                        } //,
+                        // {
+                        //     label: 'Recuperados',
+                        //     data: recovered.map(item => item.cases),
+                        //     borderColor: 'green' 
+                        // }
                     ]
                 },
                 options: {
@@ -100,11 +101,11 @@
             }) 
         }
 
-        function renderCharts() {  // Esta aplicacion renderizara el grafico en el canva declarado arriba
+        async function renderCharts() {  // Esta aplicacion renderizara el grafico en el canva declarado arriba
             const ctx = document.querySelector('#chart').getContext('2d')
-            totalCasesChart(ctx)  // Se inicia la funcion de arriba, se otorga como parametro el canvas
+            const data = await getTotalCasesByDate() // Esspera la funcion asincrona
+            totalCasesChart(data, ctx)  // Se inicia la funcion de arriba, se otorga como parametro el canvas
         }
-
         renderCharts()  // Se ejecuta la funcion que inicia a la otra de más arriba
     </script>
 </body>
