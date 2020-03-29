@@ -10,24 +10,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> <!--Se importa el api de ChartsJS-->
     <script type="module">
         import data from './data.js'  //Se importa una data quemada para trabajar como example
-        debugger
+        //  debugger  Se ocupa, para opcion para depurar
         function totalCasesChart(ctx) {   // Esta funcion es quien pinta el grafico 
+
+            const {
+                confirmed,
+                deaths,
+                recovered       // Data devuelve 3 arrays distintos, los cuales los de abajo
+            }   = data          // Se destructura el objeto data y sus atributos 
+                                // confirmed, deaths and recovered
+
             const chart =  new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: [1, 20, 30, 50, 70],
+                    labels: confirmed.map(item => item.date), // al array de data, confirmed se mapea y se devuelve el date
                     datasets: [
                         {
                             label: 'Muertes',
-                            data: [1, 20, 30, 40],
+                            data: deaths.map(item => item.cases),
                         },
                         {
                             label: 'Contagiados',
-                            data: [5, 26, 33, 41],
+                            data: confirmed.map(item => item.cases),
                         },
                         {
                             label: 'Recuperados',
-                            data: [3, 31, 56, 58],
+                            data: recovered.map(item => item.cases),
                         }
                     ]
                 }
